@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Folder Include="Handlers\StoreManagement\Categories\" />
+    <Folder Include="Exceptions\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,6 +17,7 @@
     
     <ProjectReference Include="..\..\Core\NexaShopify.Core.Common\NexaShopify.Core.Common.csproj" />
     <ProjectReference Include="..\..\Core\NexaShopify.Core.SharedKernel\NexaShopify.Core.SharedKernel.csproj" />
+    <ProjectReference Include="..\NexaShopify.Core.Identity\NexaShopify.Core.Identity.csproj" />
   </ItemGroup>
 
 </Project>
