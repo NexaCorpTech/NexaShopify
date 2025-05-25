@@ -77,6 +77,7 @@ namespace Infrastructure.Data.Access
         #region>> Adda -4/2025 : it sucks, but I'll review it later, because I don't have time to think about securing our database (Nexa Corp) 
         public static string GetConnectionString()
         {
+
             return null;
         }
         //public static bool GetDebugMode()
