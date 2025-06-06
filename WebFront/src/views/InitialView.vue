@@ -1,35 +1,61 @@
 <template>
   <div class="ecommerce-page">
     <div class="container">
-      <header>
-        <div class="logo-container">
-          <div class="logo">
-            <i class="fas fa-store"></i>
-            <span>NexaShop eCommerce</span>
-            <div class="dunya mini-globe">
-              <div class="mini-orbit"></div>
-              <!-- <div class="mini-satellite"></div> -->
-            </div>
-          </div>
+<header>
+  <div class="header-grid">
+    <div class="logo-container">
+      <div class="logo">
+        <i class="fas fa-store"></i>
+        <span>NexaShop eCommerce</span>
+        <div class="dunya mini-globe">
+          <div class="mini-orbit"></div>
         </div>
-        <nav>
-          <ul>
-            <li><a href="#">Accueil</a></li>
-            <li><a href="#">Boutiques</a></li>
-            <li><a href="#">Produits</a></li>
-            <li><a href="#">Vendre</a></li>
-            <li><a href="#">Contact</a></li>
-          </ul>
-        </nav>
-        <div class="user-actions">
-          <button class="action-btn buyer-btn" @click="goToBuyerSection">
-            <i class="fas fa-shopping-bag"></i> Acheter
+      </div>
+    </div>
+    
+    <nav class="main-nav">
+      <ul>
+        <li><a href="#">Accueil</a></li>
+        <li><a href="#">Boutiques</a></li>
+        <!-- <li><a href="#">Produits</a></li>
+        <li><a href="#">Vendre</a></li>
+        <li><a href="#">Contact</a></li> -->
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <div v-if="!isLoggedIn" class="login-section">
+        <button class="action-btn login-btn" @click="goToLogin">
+          <i class="fas fa-sign-in-alt"></i> Se connecter
+        </button>
+      </div>
+      
+      <div v-else class="user-menu">
+        <button class="user-profile-btn" @click="toggleUserMenu">
+          <i class="fas fa-user-circle"></i>
+          <span>{{ user.name }}</span>
+        </button>
+        <div v-if="showUserMenu" class="dropdown-menu">
+          <button @click="goToDashboard">
+            <i class="fas fa-tachometer-alt"></i> Tableau de bord
           </button>
-          <button class="action-btn seller-btn" @click="goToSellerSection">
-            <i class="fas fa-store"></i> Vendre
+          <button @click="logout">
+            <i class="fas fa-sign-out-alt"></i> Déconnexion
           </button>
         </div>
-      </header>
+      </div>
+
+      <button class="action-btn buyer-btn" @click="goToBuyerSection">
+        <i class="fas fa-shopping-bag"></i> Acheter
+      </button>
+      <button class="action-btn seller-btn" @click="goToSellerSection">
+        <i class="fas fa-store"></i> Vendre
+      </button>
+    </div>
+    <!-- Test  -->
+     
+  </div>
+</header>
       
       <section class="hero">
         <!-- <div class="globe-container">
@@ -38,6 +64,7 @@
             <div class="satellite"></div>
           </div>
         </div> -->
+        
         <h1>Commencez à vendre ou acheter en ligne</h1>
         <div class="subtitle">Une solution e-Commerce complète pour tous</div>
         
@@ -126,35 +153,80 @@ export default {
   name: 'EcommercePage',
   data() {
     return {
-      currentYear: new Date().getFullYear()
+      currentYear: new Date().getFullYear(),
+      isLoggedIn: false, // À remplacer par une vérification réelle
+      user: {
+        name: "Jean Dupont",
+        role: "seller" // ou "buyer"
+      },
+      showUserMenu: false
     }
+  },
+  mounted() {
+    // Vérifier si l'utilisateur est connecté (simulation)
+    this.checkAuthStatus();
   },
   methods: {
     createShop() {
-      alert("Création de votre boutique en cours...");
-      // Redirection vers la page de création de boutique
+      // Enregistrer l'intention avant redirection
+      localStorage.setItem('intendedPath', '/signup');
+      
+      if (this.isLoggedIn && this.user.role === 'seller') {
+        this.$router.push('/seller-dashboard');
+      } else {
+        this.$router.push('/signup');
+      }
     },
     browseProducts() {
-      alert("Redirection vers notre catalogue de produits...");
-      // Redirection vers la page des produits
+      if (this.isLoggedIn && this.user.role === 'buyer') {
+        this.$router.push('/buyer-home');
+      } else {
+        this.$router.push('/products');
+      }
     },
     goToBuyerSection() {
-      // Dans une application réelle, on scrollerait vers la section acheteur
       const buyerSection = document.querySelector('.path-card.buyer');
       if (buyerSection) {
         buyerSection.scrollIntoView({ behavior: 'smooth' });
       }
     },
     goToSellerSection() {
-      // Dans une application réelle, on scrollerait vers la section vendeur
       const sellerSection = document.querySelector('.path-card.seller');
       if (sellerSection) {
         sellerSection.scrollIntoView({ behavior: 'smooth' });
       }
+    },
+    goToLogin() {
+      // Redirection intelligente basée sur l'intention
+      const intendedPath = localStorage.getItem('intendedPath') || '/login';
+      this.$router.push(intendedPath);
+    },
+    goToDashboard() {
+      this.showUserMenu = false;
+      if (this.user.role === 'seller') {
+        this.$router.push('/seller-dashboard');
+      } else {
+        this.$router.push('/buyer-home');
+      }
+    },
+    logout() {
+      // Logique de déconnexion
+      this.isLoggedIn = false;
+      this.showUserMenu = false;
+      localStorage.removeItem('authToken');
+    },
+    toggleUserMenu() {
+      this.showUserMenu = !this.showUserMenu;
+    },
+    checkAuthStatus() {
+      // Simuler une vérification d'authentification
+      const token = localStorage.getItem('authToken');
+      this.isLoggedIn = !!token;
     }
   }
 }
 </script>
+
 
 <style scoped>
 * {
@@ -177,14 +249,8 @@ export default {
   margin: 0 auto;
 }
 
-header {
-  padding: 20px 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 20px;
-}
+
+
 
 .logo-container {
   display: flex;
@@ -228,9 +294,16 @@ nav a:hover {
   color: #0468ff;
 }
 
+/* .user-actions {
+  display: flex;
+  gap: 15px;
+} */
+
 .user-actions {
   display: flex;
   gap: 15px;
+  align-items: center;
+  position: relative;
 }
 
 .action-btn {
@@ -244,6 +317,16 @@ nav a:hover {
   align-items: center;
   gap: 8px;
   white-space: nowrap;
+}
+
+.login-btn {
+  background: #6c757d;
+  color: white;
+}
+
+.login-btn:hover {
+  background: #5a6268;
+  transform: translateY(-2px);
 }
 
 .buyer-btn {
@@ -264,6 +347,57 @@ nav a:hover {
 .seller-btn:hover {
   background: #0353d9;
   transform: translateY(-2px);
+}
+
+/* Menu utilisateur */
+.user-menu {
+  position: relative;
+}
+
+.user-profile-btn {
+  padding: 8px 15px;
+  background: #e9ecef;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: none;
+}
+
+.user-profile-btn:hover {
+  background: #dde0e3;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  width: 200px;
+  z-index: 100;
+  overflow: hidden;
+  margin-top: 5px;
+}
+
+.dropdown-menu button {
+  width: 100%;
+  text-align: left;
+  padding: 12px 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.dropdown-menu button:hover {
+  background: #f8f9fa;
 }
 
 .hero {
@@ -348,13 +482,11 @@ nav a:hover {
 }
 
 .mini-globe {
-  /* width: 48px;
-  height: 48px; */
+  position: relative;
   width: 80px;
   height: 80px;
   animation: spin 15s infinite linear;
   box-shadow: 0 0 10px rgba(0, 100, 255, 0.3);
-  position: relative;
 }
 
 .orbit {
@@ -370,12 +502,10 @@ nav a:hover {
 
 .mini-orbit {
   position: absolute;
-  top: -8px;
-  left: -8px;
-  /* width: 64px;
-  height: 64px; */
-  width: 94px;
-  height: 94px;
+  top: -10%;  /* Changé de -8px à pourcentage */
+  left: -10%; /* Changé de -8px à pourcentage */
+  width: 120%; /* Changé de 94px à pourcentage */
+  height: 120%; /* Changé de 94px à pourcentage */
   border: 1px dashed rgba(4, 104, 255, 0.2);
   border-radius: 50%;
   animation: rotate 12s infinite linear;
@@ -395,11 +525,10 @@ nav a:hover {
 
 .mini-satellite {
   position: absolute;
-  /* top: 0; */
-  top: -10px; /* ajusté  */
+  top: -12.5%; /* Changé de -10px à pourcentage */
   left: 50%;
-  width: 6px;
-  height: 6px;
+  width: 7.5%; /* Changé de 6px à pourcentage */
+  height: 7.5%; /* Changé de 6px à pourcentage */
   background: #0468ff;
   border-radius: 50%;
   transform: translateX(-50%);
@@ -657,40 +786,90 @@ footer {
   margin-top: 40px;
 }
 
-/* Responsive Design */
-@media (max-width: 992px) {
-  header {
-    flex-direction: column;
-    align-items: flex-start;
+/* Here */
+/* Nouveau système de grille pour l'alignement */
+.header-grid {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  width: 100%;
+  gap: 30px;
+}
+
+.main-nav ul {
+  display: flex;
+  gap: 25px;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+.main-nav li {
+  margin: 0;
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+}
+
+/* Ajustements pour les boutons */
+.action-btn {
+  padding: 10px 18px;
+  font-size: 0.95rem;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .header-grid {
+    gap: 15px;
   }
   
-  nav ul {
-    margin-top: 15px;
+  .main-nav ul {
+    gap: 15px;
   }
   
-  .user-actions {
-    width: 100%;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .globe-container {
-    width: 180px;
-    height: 180px;
-  }
-  
-  .main-globe {
-    width: 160px;
-    height: 160px;
-  }
-  
-  .orbit {
-    width: 190px;
-    height: 190px;
-    top: -15px;
-    left: -15px;
+  .action-btn {
+    padding: 8px 15px;
   }
 }
+
+@media (max-width: 992px) {
+  .header-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 15px;
+  }
+  
+  .logo-container {
+    text-align: center;
+  }
+  
+  .main-nav ul {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .header-actions {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .action-btn {
+    font-size: 0.85rem;
+    padding: 7px 12px;
+  }
+  
+  .main-nav ul {
+    gap: 10px;
+  }
+}
+
+/* End */
 
 @media (max-width: 768px) {
   h1 {
@@ -760,6 +939,11 @@ footer {
     font-size: 0.9rem;
   }
   
+  .mini-globe {
+    width: 48px;
+    height: 48px;
+  }
+
   .path-btn {
     padding: 12px 20px;
     font-size: 1rem;
@@ -803,4 +987,5 @@ footer {
   margin-left: 10px;
 }
 }
+
 </style>
