@@ -401,3 +401,7 @@ FodyWeavers.xsd
 
 # data Base Config file 
 #Infrastructure/Infrastructure.Data/Access/Settings.cs
+
+#ignore node_modules inside WebFront Project
+/WebFront/node_modules/
+node_modules/
