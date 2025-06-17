@@ -1,55 +1,88 @@
-// import { createRouter, createWebHistory } from "vue-router";
-// import HomeView from "@/views/HomeView.vue";
-// import LoginView from "@/views/LoginView.vue";
-// import SignupView from "@/views/SignupView.vue";
-// import InitialView from "@/views/InitialView.vue";
-// import BuyerHome from "@/views/BuyerHome.vue";
-
-// const router = createRouter({
-//   history: createWebHistory(import.meta.env.BASE_URL),
-//   routes: [
-//     { path: "/", name: "default", component: InitialView },
-//     { path: "/home", name: "home", component: HomeView },
-//     { path: "/login", name: "login", component: LoginView },
-//     { path: "/register", name: "register", component: SignupView },
-//     { path: "/buyer", name: "buyerhome", component: BuyerHome }
-//   ],
-// });
-
-// export default router;
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "@/views/HomeView.vue";
-import InitialView from "@/views/InitialView.vue";
-import BuyerHome from "@/views/BuyerHome.vue";
+import HowItWorks from '@/views/HowItWorks.vue'
+const routes = [
+  { 
+    path: "/", 
+    name: "home", 
+    component: () => import("@/views/InitialView.vue"),
+    meta: { title: "Accueil - NexaShop" }
+  },
+  { 
+    path: "/products", 
+    name: "products", 
+    component: () => import("@/views/ProductsView.vue"), // applying Lazy Loading 
+    meta: { title: "Produits - NexaShop" }
+  },
+  // { 
+  //   path: "/buyer", 
+  //   name: "buyerhome", 
+  //   component: () => import("@/views/BuyerHome.vue"),
+  //   meta: { title: "Espace acheteur - NexaShop" }
+  // },
+  { 
+    path: "/seller", 
+    name: "seller-dashboard", 
+    component: () => import("@/views/SellerDashboard.vue"),
+    meta: { title: "Tableau de bord vendeur - NexaShop" }
+  },
+  { 
+    path: "/create-shop", 
+    name: "create-shop", 
+    component: () => import("@/views/CreateShopView.vue"),
+    meta: { title: "Créer votre boutique - NexaShop" }
+  },
+  { 
+    path: "/login", 
+    name: "login", 
+    component: () => import("@/views/LoginView.vue"),
+    meta: { title: "Connexion - NexaShop" }
+  },
+  { 
+    path: "/register", 
+    name: "register", 
+    component: () => import("@/views/SignupView.vue"),
+    meta: { title: "Inscription - NexaShop" }
+  },
+  {
+    path: '/how-it-works',
+    name: 'HowItWorks',
+    component: HowItWorks,
+    meta: { title: 'Comment ça marche' }
+  }
+];
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    { path: "/", name: "default", component: InitialView },
-    { path: "/home", name: "home", component: HomeView },
-    { path: "/buyer", name: "buyerhome", component: BuyerHome }
-  ],
+  routes
 });
 
-// Ajoutez ces gestionnaires de navigation
-router.beforeEach((to, from, next) => {
-  // Afficher le spinner au début de chaque navigation
+// Gestion du titre
+router.beforeEach((to) => {
+  document.title = to.meta.title || 'NexaShop';
+});
+
+// Gestion du spinner - version corrigée
+router.beforeEach(() => {
   const spinner = document.getElementById('nb-global-spinner');
-  if (spinner) spinner.style.display = 'flex';
-  
-  next();
+  if (spinner) {
+    spinner.style.display = 'flex';
+    spinner.style.opacity = '1';
+  }
 });
 
 router.afterEach(() => {
-  // Cacher le spinner après un court délai
   setTimeout(() => {
     const spinner = document.getElementById('nb-global-spinner');
-    if (spinner) spinner.style.display = 'none';
+    if (spinner) {
+      spinner.style.opacity = '0';
+      setTimeout(() => {
+        spinner.style.display = 'none';
+      }, 500);
+    }
   }, 300);
 });
 
 router.onError((error) => {
-  // Cacher le spinner en cas d'erreur
   const spinner = document.getElementById('nb-global-spinner');
   if (spinner) spinner.style.display = 'none';
   console.error("Erreur de navigation :", error);
