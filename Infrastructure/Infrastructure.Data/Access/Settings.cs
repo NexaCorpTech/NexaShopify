@@ -78,7 +78,7 @@ namespace Infrastructure.Data.Access
         public static string GetConnectionString()
         {
 
-            return null;
+            return @"workstation id=NexaShop.mssql.somee.com;packet size=4096;user id=Hamidoullah_SQLLogin_1;pwd=p353go4tp1;data source=NexaShop.mssql.somee.com;persist security info=False;initial catalog=NexaShop;TrustServerCertificate=True";
         }
         //public static bool GetDebugMode()
         //{

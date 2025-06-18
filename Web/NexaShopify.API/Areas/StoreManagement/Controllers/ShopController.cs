@@ -4,7 +4,7 @@ using NexaShopify.Core.Common.Models;
 using NexaShopify.Core.Shop.Models.Shop;
 using Swashbuckle.AspNetCore.Annotations;
 using static System.Runtime.InteropServices.JavaScript.JSType;
-
+using NexaShopify.Core.Shop.Handlers.StoreManagement;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace NexaShopify.API.Areas.Shops.Controllers
@@ -24,9 +24,9 @@ namespace NexaShopify.API.Areas.Shops.Controllers
             {
                
                
-               // var response = new Core.Shop.Handlers.StoreManagement.Shop.GetAllShopHandler(this.GetCurrentUser()).Handle();
-               // return Ok(response);
-               return Ok(new ShopModel());  
+              var response = new Core.Shop.Handlers.StoreManagement.Shop.GetAllShopHandler(this.GetCurrentUser()).Handle();
+               return Ok(response);
+              ///return Ok(new ShopModel());  
             }
             catch (Exception e)
             {

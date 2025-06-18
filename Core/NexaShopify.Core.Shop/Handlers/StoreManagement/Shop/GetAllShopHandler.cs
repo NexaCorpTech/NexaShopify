@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NexaShopify.Core.Store.Handlers.StoreManagement.Shop
+namespace NexaShopify.Core.Shop.Handlers.StoreManagement.Shop
 {
     public class GetAllShopHandler : IHandle<Identity.Models.UserModel, ResponseModel<List<ShopModel>>>
     {
