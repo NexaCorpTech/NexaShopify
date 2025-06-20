@@ -1,0 +1,14 @@
+# Tous les fichiers doivent être approuvés par le chef de projet ou le responsable technique
+*       @addaissaabdoulrazak @IdrissaMoussaAdamou
+
+# 👨‍💻 Backend : partie C# (.NET)
+/Core/              @addaissaabdoulrazak @IdrissaMoussaAdamou
+/Infrastructure/    @addaissaabdoulrazak @IdrissaMoussaAdamou
+/Web/               @addaissaabdoulrazak @IdrissaMoussaAdamou
+
+# 🌐 Frontend : Vue.js
+/WebFront/          @addaissaabdoulrazak @IdrissaMoussaAdamou
+/WebFront/src/      @addaissaabdoulrazak @IdrissaMoussaAdamou
+/WebFront/src/components/ @addaissaabdoulrazak @IdrissaMoussaAdamou
+/WebFront/src/router/     @addaissaabdoulrazak @IdrissaMoussaAdamou
+/WebFront/src/views/      @addaissaabdoulrazak @IdrissaMoussaAdamou
