@@ -3,6 +3,7 @@
 1. [Prérequis](#prérequis)
 2. [Installation](#installation)
 3. [Explication des étapes](#explication-des-étapes)
+    1. [Hotfixes](#hotfixes)
 4. [Git Workflow](#git-workflow)
     1. [Branche principale : `main`](#branche-principale-main)
     2. [Création de branches de fonctionnalités](#création-de-branches-de-fonctionnalités)
@@ -146,7 +147,33 @@ ou bien
  ```bash
   git commit -m "feat: Adding the login form"
 ```
+### 3.1 **Hotfixes**
 
+- Pour les corrections critiques en production :
+  - Créez une branche de hotfix à partir de main :
+
+  ```bash
+    git checkout main
+    git pull origin main
+    git checkout -b hotfix/nom-du-hotfix
+  ```
+  - Effectuez les corrections avec des commits préfixés par fix: ou hotfix:.
+
+  - Créez une PR vers main (doit être approuvée par un autre développeur).
+
+  - Après fusion dans main, intégrez immédiatement le correctif dans develop :
+ 
+   ```bash
+    git checkout develop
+    git pull origin develop
+    git merge hotfix/nom-du-hotfix
+  ```
+Résolvez les conflits si nécessaire.
+
+  - Supprimez la branche de hotfix (voir section 7).
+
+Important : Fusionnez toujours le hotfix dans develop après main pour éviter que le bug ne réapparaisse.
+ 
 ### 4. **Pull Requests (PR)**
 
 - Une fois que vous avez terminé de travailler sur votre branche, créez une Pull Request (PR) vers la branche develop.
@@ -176,5 +203,16 @@ Les membres de l'équipe doivent faire une revue de code sur chaque PR avant qu'
 Après avoir fusionné une PR sur `develop` (jamais sur main), supprimez la branche utilisée pour éviter l'encombrement du dépôt :
 
 ```bash
-git branch -d feature/nom-de-la-fonctionnalité
-git push origin --delete feature/nom-de-la-fonctionnalité
+# Suppression locale
+git branch -d nom-de-la-branche
+
+# Suppression sur le dépôt distant
+git push origin --delete nom-de-la-branche
+```
+S'applique à :
+
+  - Branches de fonctionnalités (feature/*)
+
+  - Branches de correctifs (bugfix/*)
+
+  - Branches de hotfixes (hotfix/*)
