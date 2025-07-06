@@ -68,13 +68,20 @@
         </div>
         <a href="#" class="forgot-password">Mot de passe oublié ?</a>
       </div>
-      
-      <button 
-        class="login-button" 
-        @click="login" 
-        :disabled="isLoggingIn"
+
+      <!-- Affichage des erreurs -->
+      <div v-if="auth.errors" class="form-error" style="color: #d32f2f; margin-bottom: 15px;">
+        <ul>
+          <li v-for="err in auth.errors" :key="err">{{ err }}</li>
+        </ul>
+      </div>
+
+      <button
+          class="login-button"
+          @click="login"
+          :disabled="isLoggingIn"
       >
-        <i :class="isLoggingIn ? 'fas fa-spinner fa-spin' : 'fas fa-sign-in-alt'"></i> 
+        <i :class="isLoggingIn ? 'fas fa-spinner fa-spin' : 'fas fa-sign-in-alt'"></i>
         {{ loginButtonText }}
       </button>
       
@@ -96,67 +103,70 @@
       </div>
       
       <p class="register-link">
-        Nouveau sur NexaShop ? <a href="#">Créer un compte</a>
+        Nouveau sur NexaShop ? <a href="#" @click.prevent="goToSignUp">Créer un compte</a>
       </p>
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'LoginPage',
-  data() {
-    return {
-      credentials: {
-        email: '',
-        password: ''
-      },
-      showPassword: false,
-      rememberMe: false,
-      isLoggingIn: false,
-      loginButtonText: 'Se connecter'
-    }
-  },
-  methods: {
-    togglePasswordVisibility() {
-      this.showPassword = !this.showPassword;
-    },
-    toggleRemember() {
-      this.rememberMe = !this.rememberMe;
-    },
-    login() {
-      if (!this.credentials.email || !this.credentials.password) {
-        alert('Veuillez remplir tous les champs');
-        return;
-      }
-      
-      this.isLoggingIn = true;
-      this.loginButtonText = 'Connexion en cours...';
-      
-      // Simulation de connexion
-      setTimeout(() => {
-        this.isLoggingIn = false;
-        this.loginButtonText = 'Connexion réussie !';
-        
-        // Changement de style pour indiquer la réussite
-        const button = document.querySelector('.login-button');
-        button.style.background = 'var(--secondary)';
-        button.style.cursor = 'default';
-        
-        // Redirection après 1 seconde
-        setTimeout(() => {
-          alert(`Bienvenue ${this.credentials.email}! Vous êtes maintenant connecté.`);
-          // En situation réelle: this.$router.push('/dashboard');
-        }, 1000);
-      }, 1500);
-    },
-    loginWithGoogle() {
-      alert('Connexion avec Google sélectionnée');
-    },
-    loginWithFacebook() {
-      alert('Connexion avec Facebook sélectionnée');
-    }
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+import { useToast } from "vue-toastification"
+
+const credentials = ref({
+  email: '',
+  password: ''
+})
+const showPassword = ref(false)
+const rememberMe = ref(false)
+const isLoggingIn = ref(false)
+const loginButtonText = ref('Se connecter')
+const auth = useAuthStore()
+const router = useRouter()
+const toast = useToast()
+
+function togglePasswordVisibility() {
+  showPassword.value = !showPassword.value
+}
+function toggleRemember() {
+  rememberMe.value = !rememberMe.value
+}
+
+async function login() {
+  if (!credentials.value.email || !credentials.value.password) {
+    alert('Veuillez remplir tous les champs')
+    return
   }
+  isLoggingIn.value = true
+  loginButtonText.value = 'Connexion en cours...'
+
+  const success = await auth.login({
+    username: credentials.value.email,
+    password: credentials.value.password,
+    rememberMe: rememberMe.value
+  })
+
+  isLoggingIn.value = false
+  loginButtonText.value = 'Se connecter'
+
+  if (success) {
+    toast.success("Connexion réussie !")
+    loginButtonText.value = 'Connexion réussie !'
+    setTimeout(() => {
+      router.push('/dashboard') // à adapter selon ta route dashboard
+    }, 1000)
+  }else {
+    toast.error(auth.errors && auth.errors[0] ? auth.errors[0] : "Informations incorrectes")
+  }
+}
+
+function loginWithGoogle() {
+  alert('Connexion avec Google sélectionnée')
+}
+function loginWithFacebook() {
+  alert('Connexion avec Facebook sélectionnée')
 }
 </script>
 
