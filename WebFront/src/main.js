@@ -44,6 +44,20 @@ import { createApp } from 'vue'
 import App from './App.vue'
 //import router from './router'
 import router from "./router/pagesRouter";
+import { createPinia } from 'pinia'
+import { useAuthStore } from '@/stores/auth'
+import Toast from "vue-toastification";
+// Import the CSS of vue-toastification
+import "vue-toastification/dist/index.css";
+
+
 const app = createApp(App)
 app.use(router)
+app.use(createPinia())
+app.use(Toast)
+
 app.mount('#app')
+
+// Initialisation du token (important)
+const auth = useAuthStore()
+auth.initialize()

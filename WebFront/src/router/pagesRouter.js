@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { useAuthStore } from '@/stores/auth'
 import HowItWorks from '@/views/HowItWorks.vue'
 const routes = [
   { 
@@ -23,7 +24,8 @@ const routes = [
     path: "/seller", 
     name: "seller-dashboard", 
     component: () => import("@/views/SellerDashboard.vue"),
-    meta: { title: "Tableau de bord vendeur - NexaShop" }
+    meta: { title: "Tableau de bord vendeur - NexaShop" },
+    meta: { requiresAuth: true }
   },
   { 
     path: "/create-shop", 
@@ -69,6 +71,16 @@ router.beforeEach(() => {
     spinner.style.opacity = '1';
   }
 });
+
+//Gestion Authentification
+router.beforeEach((to, from, next) => {
+  const auth = useAuthStore()
+  if (to.meta.requiresAuth && !auth.isLoggedIn) {
+    next('/login')
+  } else {
+    next()
+  }
+})
 
 router.afterEach(() => {
   setTimeout(() => {
