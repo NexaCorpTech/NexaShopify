@@ -22,7 +22,7 @@ namespace NexaShopify.API
             var securityKey = TokensManager.GetSecurityKey();
             GetConnectionStringLocal(builder.Configuration);
             //
-            var  NexaCustomAllowOrigin = "NexaCustomAllowOrigin";
+            var  NexaCustomAllowOrigin = "AllowFrontend";
 
             // Add services to the container.
 
