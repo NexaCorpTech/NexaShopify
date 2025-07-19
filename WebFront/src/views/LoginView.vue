@@ -58,13 +58,14 @@
           @click="togglePasswordVisibility"
         ></i>
       </div>
-      
+
       <div class="form-options">
-        <div class="remember-me" @click="toggleRemember">
-          <div class="remember-checkbox" :class="{ checked: rememberMe }">
-            <i class="fas fa-check"></i>
-          </div>
-          <span>Se souvenir de moi</span>
+        <div class="remember-switch">
+          <label class="switch">
+            <input type="checkbox" v-model="rememberMe" />
+            <span class="slider"></span>
+          </label>
+          <span class="remember-label">Rester connecté</span>
         </div>
         <a href="#" class="forgot-password">Mot de passe oublié ?</a>
       </div>
@@ -79,7 +80,7 @@
       <button
           class="login-button"
           @click="login"
-          :disabled="isLoggingIn"
+          :disabled="isLoggingIn || !credentials.email || !credentials.password || auth.isLoggedIn"
       >
         <i :class="isLoggingIn ? 'fas fa-spinner fa-spin' : 'fas fa-sign-in-alt'"></i>
         {{ loginButtonText }}
@@ -394,55 +395,53 @@ function loginWithFacebook() {
   animation-delay: 0.1s;
 }
 
-.remember-me {
+/* Switch toggle "Rester connecté" */
+.remember-switch {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   cursor: pointer;
+  user-select: none;
 }
-
-.remember-checkbox {
-  width: 20px;
-  height: 20px;
-  border: 2px solid #000;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-}
-
-.remember-checkbox.checked {
-  background: var(--primary);
-  border-color: var(--primary);
-}
-
-.remember-checkbox.checked i {
-  color: white;
-  font-size: 0.8rem;
-}
-
-.forgot-password {
-  color: var(--primary);
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.2s;
+.switch {
   position: relative;
+  display: inline-block;
+  width: 38px;
+  height: 22px;
+  vertical-align: middle;
 }
-
-.forgot-password::after {
-  content: '';
+.switch input { display: none; }
+.slider {
   position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: var(--primary);
-  transition: width 0.3s;
+  cursor: pointer;
+  top: 0; left: 0;
+  right: 0; bottom: 0;
+  background: #e2e8f0;
+  border-radius: 16px;
+  transition: .2s;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.03);
 }
-
-.forgot-password:hover::after {
-  width: 100%;
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px; width: 18px;
+  left: 2px; bottom: 2px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.14);
+  transition: .2s;
+}
+input:checked + .slider {
+  background: var(--primary);
+}
+input:checked + .slider:before {
+  transform: translateX(16px);
+}
+.remember-label {
+  margin-left: 4px;
+  color: #64748b;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 .login-button {
