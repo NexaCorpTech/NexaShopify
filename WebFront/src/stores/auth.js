@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia'
-import axios from 'axios'
+import Cookies from 'js-cookie'
+import api from '@/axios'  // <-- Utilise l'instance avec interceptor
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
-        token: localStorage.getItem('token') || sessionStorage.getItem('token') || null,
-        isLoggedIn: !!(localStorage.getItem('token') || sessionStorage.getItem('token')),
+        token: Cookies.get('token') || null,
+        isLoggedIn: !!Cookies.get('token'),
         loading: false,
         errors: null,
     }),
@@ -13,7 +14,7 @@ export const useAuthStore = defineStore('auth', {
             this.loading = true
             this.errors = null
             try {
-                const { data } = await axios.post('/api/authentication/login', {
+                const { data } = await api.post('/authentication/login', {
                     username,
                     password,
                     rememberMe,
@@ -22,14 +23,12 @@ export const useAuthStore = defineStore('auth', {
                 if (res.Success && res.ResponseBody) {
                     this.token = res.ResponseBody
                     this.isLoggedIn = true
+                    // La durée dépend du rememberMe (ex: 30 jours ou session)
                     if (rememberMe) {
-                        localStorage.setItem('token', res.ResponseBody)
-                        sessionStorage.removeItem('token')
+                        Cookies.set('token', res.ResponseBody, { expires: 30, secure: true, sameSite: 'strict' })
                     } else {
-                        sessionStorage.setItem('token', res.ResponseBody)
-                        localStorage.removeItem('token')
+                        Cookies.set('token', res.ResponseBody)
                     }
-                    axios.defaults.headers.common['Authorization'] = `Bearer ${res.ResponseBody}`
                     return true
                 } else if (res.Errors) {
                     this.errors = res.Errors
@@ -51,16 +50,13 @@ export const useAuthStore = defineStore('auth', {
         logout() {
             this.token = null
             this.isLoggedIn = false
-            localStorage.removeItem('token')
-            sessionStorage.removeItem('token')
-            delete axios.defaults.headers.common['Authorization']
+            Cookies.remove('token')
         },
         initialize() {
-            const stored = localStorage.getItem('token') || sessionStorage.getItem('token')
+            const stored = Cookies.get('token')
             if (stored) {
                 this.token = stored
                 this.isLoggedIn = true
-                axios.defaults.headers.common['Authorization'] = `Bearer ${stored}`
             }
         }
     }
