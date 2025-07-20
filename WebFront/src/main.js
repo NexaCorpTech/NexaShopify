@@ -227,5 +227,3 @@ app.component('Chart', Chart)
 // Mount the app
 app.mount('#app');
 
-
-
