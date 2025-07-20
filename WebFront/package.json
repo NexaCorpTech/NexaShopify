@@ -16,10 +16,12 @@
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/vue-fontawesome": "^3.0.8",
     "@primeuix/themes": "^1.1.1",
-    "axios": "^1.8.4",
+    "axios": "^1.10.0",
     "bootstrap": "^5.3.5",
+    "lodash": "^4.17.21",
     "pinia": "^3.0.2",
     "primevue": "^4.3.4",
+    "tailwindcss": "^4.1.11",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0",
     "vue3-apexcharts": "^1.8.0"

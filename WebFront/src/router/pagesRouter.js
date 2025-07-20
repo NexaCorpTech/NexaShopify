@@ -48,6 +48,12 @@ const routes = [
     name: 'HowItWorks',
     component: HowItWorks,
     meta: { title: 'Comment ça marche' }
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: () => import("@/views/AdminDashboard.vue"),
+    meta: { title: "Tableau de bord Admin - NexaShop" }
   }
 ];
 
