@@ -1,5 +1,16 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HowItWorks from '@/views/HowItWorks.vue'
+
+// Import views seller dashboard components
+import Dashboard from '../views/Dashboard.vue';
+import Orders from '../views/Orders.vue';
+import Products from '../views/Products.vue';
+import Customers from '../views/Customers.vue';
+import Analytics from '../views/Analytics.vue';
+import Marketing from '../views/Marketing.vue';
+import Discounts from '../views/Discounts.vue';
+import Settings from '../views/Settings.vue';
+
 const routes = [
   { 
     path: "/", 
@@ -7,12 +18,12 @@ const routes = [
     component: () => import("@/views/InitialView.vue"),
     meta: { title: "Accueil - NexaShop" }
   },
-  { 
-    path: "/products", 
-    name: "products", 
-    component: () => import("@/views/ProductsView.vue"), // applying Lazy Loading 
-    meta: { title: "Produits - NexaShop" }
-  },
+  // { 
+  //   path: "/products", 
+  //   name: "products", 
+  //   component: () => import("@/views/ProductsView.vue"), // applying Lazy Loading 
+  //   meta: { title: "Produits - NexaShop" }
+  // },
   // { 
   //   path: "/buyer", 
   //   name: "buyerhome", 
@@ -48,12 +59,28 @@ const routes = [
     name: 'HowItWorks',
     component: HowItWorks,
     meta: { title: 'Comment ça marche' }
-  }
+  },
+  // Sellers Dashboard routes
+  { path: '/seller-dashboard', name: 'Dashboard', component: Dashboard,meta: { layout: 'layoutseller' } },
+  { path: '/orders', name: 'Orders', component: Orders, meta: { layout: 'layoutseller' } },
+  { path: '/products', name: 'Products', component: Products, meta: { layout: 'layoutseller' } },
+  { path: '/customers', name: 'Customers', component: Customers, meta: { layout: 'layoutseller' } },
+  { path: '/analytics', name: 'Analytics', component: Analytics, meta: { layout: 'layoutseller' } },
+  { path: '/marketing', name: 'Marketing', component: Marketing, meta: { layout: 'layoutseller' } },
+  { path: '/discounts', name: 'Discounts', component: Discounts, meta: { layout: 'layoutseller' } },
+  { path: '/settings', name: 'Settings', component: Settings, meta: { layout: 'layoutseller' } },
+  { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('../views/NotFound.vue') }
 ];
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    }
+    return { top: 0 };
+  }
 });
 
 // Gestion du titre
@@ -62,12 +89,15 @@ router.beforeEach((to) => {
 });
 
 // Gestion du spinner - version corrigée
-router.beforeEach(() => {
+router.beforeEach((to, from, next) => {
+
+  console.log(`Navigating from ${from.path} to ${to.path} at ${new Date().toLocaleString('fr-FR', { timeZone: 'CET' })}`);
   const spinner = document.getElementById('nb-global-spinner');
   if (spinner) {
     spinner.style.display = 'flex';
     spinner.style.opacity = '1';
   }
+  next();
 });
 
 router.afterEach(() => {
