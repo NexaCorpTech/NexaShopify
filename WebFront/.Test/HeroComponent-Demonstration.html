@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
@@ -160,14 +160,14 @@
     </div>
     
     <div class="demo-content">
-      <div class="hero-section-container">
+      <div class="hero-section-container"> -->
         <!-- Le composant Hero Section sera injecté ici -->
-        <div id="app">
+        <!-- <div id="app">
           <hero-section></hero-section>
         </div>
-      </div>
+      </div> -->
       
-      <div class="demo-explanation">
+      <!-- <div class="demo-explanation">
         <h2>Fonctionnalités du composant</h2>
         <div class="features-grid">
           <div class="feature-card">
@@ -201,256 +201,256 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     
-    <div class="demo-footer">
+    <!-- <div class="demo-footer">
       <p>Composant Vue.js développé pour les plateformes e-commerce | &copy; 2023 Tous droits réservés</p>
     </div>
-  </div>
+  </div> -->
 
   <script>
     // Définition du composant HeroSection
-    Vue.component('HeroSection', {
-      template: `
-        <section class="hero">
-          <!-- Carrousel d'images de fond -->
-          <div class="carousel">
-            <div class="carousel-inner" :style="{ transform: `translateX(-${currentSlide * 100}%)` }">
-              <div 
-                v-for="(slide, index) in slides" 
-                :key="index" 
-                class="carousel-item"
-                :class="{ active: currentSlide === index }"
-                :style="{ backgroundImage: `url(${slide.image})` }"
-              >
-                <!-- Texte superposé sur chaque slide -->
-                <div class="slide-content">
-                  <h3>{{ slide.title }}</h3>
-                  <p>{{ slide.description }}</p>
-                </div>
-              </div>
-            </div>
+    // Vue.component('HeroSection', {
+    //   template: `
+    //     <section class="hero">
+    //       <!-- Carrousel d'images de fond -->
+    //       <div class="carousel">
+    //         <div class="carousel-inner" :style="{ transform: `translateX(-${currentSlide * 100}%)` }">
+    //           <div 
+    //             v-for="(slide, index) in slides" 
+    //             :key="index" 
+    //             class="carousel-item"
+    //             :class="{ active: currentSlide === index }"
+    //             :style="{ backgroundImage: `url(${slide.image})` }"
+    //           >
+    //             <!-- Texte superposé sur chaque slide -->
+    //             <div class="slide-content">
+    //               <h3>{{ slide.title }}</h3>
+    //               <p>{{ slide.description }}</p>
+    //             </div>
+    //           </div>
+    //         </div>
             
-            <!-- Contrôles du carrousel -->
-            <button class="carousel-control prev" @click="prevSlide">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="carousel-control next" @click="nextSlide">
-              <i class="fas fa-chevron-right"></i>
-            </button>
+    //         <!-- Contrôles du carrousel -->
+    //         <button class="carousel-control prev" @click="prevSlide">
+    //           <i class="fas fa-chevron-left"></i>
+    //         </button>
+    //         <button class="carousel-control next" @click="nextSlide">
+    //           <i class="fas fa-chevron-right"></i>
+    //         </button>
             
-            <!-- Indicateurs de slide -->
-            <div class="carousel-indicators">
-              <span 
-                v-for="(slide, index) in slides" 
-                :key="index" 
-                :class="{ active: currentSlide === index }"
-                @click="goToSlide(index)"
-              ></span>
-            </div>
-          </div>
+            // <!-- Indicateurs de slide -->
+          //   <div class="carousel-indicators">
+          //     <span 
+          //       v-for="(slide, index) in slides" 
+          //       :key="index" 
+          //       :class="{ active: currentSlide === index }"
+          //       @click="goToSlide(index)"
+          //     ></span>
+          //   </div>
+          // </div>
           
-          <!-- Effet de particules -->
-          <canvas ref="particlesCanvas" class="particles-canvas"></canvas>
+          // <!-- Effet de particules -->
+      //     <canvas ref="particlesCanvas" class="particles-canvas"></canvas>
           
-          <!-- Contenu Hero principal -->
-          <div class="container">
-            <div class="hero-content">
-              <h1 class="animated-headline">
-                <span class="static-text">Commencez à</span>
-                <div class="rotating-words-container">
-                  <div class="rotating-words">
-                    <span class="rotating-word">vendre en ligne</span>
-                    <span class="rotating-word">acheter en ligne</span>
-                    <span class="rotating-word">découvrir</span>
-                    <span class="rotating-word">explorer</span>
-                  </div>
-                </div>
-              </h1>
+      //     <!-- Contenu Hero principal -->
+      //     <div class="container">
+      //       <div class="hero-content">
+      //         <h1 class="animated-headline">
+      //           <span class="static-text">Commencez à</span>
+      //           <div class="rotating-words-container">
+      //             <div class="rotating-words">
+      //               <span class="rotating-word">vendre en ligne</span>
+      //               <span class="rotating-word">acheter en ligne</span>
+      //               <span class="rotating-word">découvrir</span>
+      //               <span class="rotating-word">explorer</span>
+      //             </div>
+      //           </div>
+      //         </h1>
               
-              <p>Une solution e-Commerce complète pour tous vos besoins</p>
+      //         <p>Une solution e-Commerce complète pour tous vos besoins</p>
               
-              <div class="hero-card">
-                <h2><i class="fas fa-route"></i> Choisissez votre parcours</h2>
+      //         <div class="hero-card">
+      //           <h2><i class="fas fa-route"></i> Choisissez votre parcours</h2>
                 
-                <div class="hero-btns">
-                  <a href="#products-section" class="btn btn-primary">
-                    <i class="fas fa-shopping-bag"></i> Parcourir les produits
-                  </a>
-                  <button class="btn btn-seller">
-                    <i class="fas fa-store"></i> Créer ma boutique
-                  </button>
-                  <button class="btn btn-boutique">
-                    <i class="fas fa-door-open"></i> Accéder à ma boutique
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+      //           <div class="hero-btns">
+      //             <a href="#products-section" class="btn btn-primary">
+      //               <i class="fas fa-shopping-bag"></i> Parcourir les produits
+      //             </a>
+      //             <button class="btn btn-seller">
+      //               <i class="fas fa-store"></i> Créer ma boutique
+      //             </button>
+      //             <button class="btn btn-boutique">
+      //               <i class="fas fa-door-open"></i> Accéder à ma boutique
+      //             </button>
+      //           </div>
+      //         </div>
+      //       </div>
+      //     </div>
           
-          <!-- Statistiques en temps réel -->
-          <div class="live-stats">
-            <div class="stat">
-              <i class="fas fa-users"></i>
-              <span>{{ liveUsers }}</span> utilisateurs en ligne
-            </div>
-            <div class="stat">
-              <i class="fas fa-shopping-cart"></i>
-              <span>{{ recentOrders }}</span> commandes cette heure
-            </div>
-          </div>
+      //     <!-- Statistiques en temps réel -->
+      //     <div class="live-stats">
+      //       <div class="stat">
+      //         <i class="fas fa-users"></i>
+      //         <span>{{ liveUsers }}</span> utilisateurs en ligne
+      //       </div>
+      //       <div class="stat">
+      //         <i class="fas fa-shopping-cart"></i>
+      //         <span>{{ recentOrders }}</span> commandes cette heure
+      //       </div>
+      //     </div>
           
-          <!-- Champ de recherche intelligent -->
-          <div class="smart-search">
-            <input type="text" placeholder="Rechercher des produits...">
-            <button><i class="fas fa-search"></i></button>
-            <div class="search-suggestions">
-              <div v-for="suggestion in suggestions" @click="selectSuggestion(suggestion)">
-                {{ suggestion }}
-              </div>
-            </div>
-          </div>
-        </section>
-      `,
-      data() {
-        return {
-          currentSlide: 0,
-          slides: [
-            { 
-              image: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-              title: 'Plateforme e-Commerce Complète',
-              description: 'Tout ce dont vous avez besoin pour réussir en ligne'
-            },
-            { 
-              image: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-              title: 'Vendez Facilement',
-              description: 'Créez votre boutique en quelques minutes'
-            },
-            { 
-              image: 'https://images.unsplash.com/photo-1526178613552-2b45c6c302f0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-              title: 'Des Milliers de Produits',
-              description: 'Découvrez notre catalogue varié et tendance'
-            },
-            { 
-              image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-              title: 'Gestion Simplifiée',
-              description: 'Suivez vos ventes et gérez votre stock facilement'
-            }
-          ],
-          autoPlayInterval: null,
-          liveUsers: 1242,
-          recentOrders: 568,
-          suggestions: [
-            "Smartphones",
-            "Ordinateurs portables",
-            "Vêtements",
-            "Meubles",
-            "Électroménager",
-            "Produits cosmétiques"
-          ]
-        }
-      },
-      mounted() {
-        this.startAutoPlay();
-        this.initParticles();
+      //     <!-- Champ de recherche intelligent -->
+      //     <div class="smart-search">
+      //       <input type="text" placeholder="Rechercher des produits...">
+      //       <button><i class="fas fa-search"></i></button>
+      //       <div class="search-suggestions">
+      //         <div v-for="suggestion in suggestions" @click="selectSuggestion(suggestion)">
+      //           {{ suggestion }}
+      //         </div>
+      //       </div>
+      //     </div>
+      //   </section>
+      // `,
+      // data() {
+      //   return {
+      //     currentSlide: 0,
+      //     slides: [
+      //       { 
+      //         image: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+      //         title: 'Plateforme e-Commerce Complète',
+      //         description: 'Tout ce dont vous avez besoin pour réussir en ligne'
+      //       },
+      //       { 
+      //         image: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+      //         title: 'Vendez Facilement',
+      //         description: 'Créez votre boutique en quelques minutes'
+      //       },
+      //       { 
+      //         image: 'https://images.unsplash.com/photo-1526178613552-2b45c6c302f0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
+      //         title: 'Des Milliers de Produits',
+      //         description: 'Découvrez notre catalogue varié et tendance'
+      //       },
+      //       { 
+      //         image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
+      //         title: 'Gestion Simplifiée',
+      //         description: 'Suivez vos ventes et gérez votre stock facilement'
+      //       }
+      //     ],
+      //     autoPlayInterval: null,
+      //     liveUsers: 1242,
+      //     recentOrders: 568,
+      //     suggestions: [
+      //       "Smartphones",
+      //       "Ordinateurs portables",
+      //       "Vêtements",
+      //       "Meubles",
+      //       "Électroménager",
+      //       "Produits cosmétiques"
+      //     ]
+      //   }
+      // },
+      // mounted() {
+      //   this.startAutoPlay();
+      //   this.initParticles();
         
-        // Mettre à jour les statistiques en temps réel
-        setInterval(() => {
-          this.liveUsers = Math.floor(Math.random() * 100) + 1200;
-          this.recentOrders = Math.floor(Math.random() * 50) + 550;
-        }, 5000);
-      },
-      beforeDestroy() {
-        this.stopAutoPlay();
-      },
-      methods: {
-        startAutoPlay() {
-          this.autoPlayInterval = setInterval(() => {
-            this.nextSlide();
-          }, 5000);
-        },
-        stopAutoPlay() {
-          if (this.autoPlayInterval) {
-            clearInterval(this.autoPlayInterval);
-            this.autoPlayInterval = null;
-          }
-        },
-        nextSlide() {
-          this.currentSlide = (this.currentSlide + 1) % this.slides.length;
-        },
-        prevSlide() {
-          this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
-        },
-        goToSlide(index) {
-          this.currentSlide = index;
-        },
-        initParticles() {
-          const canvas = this.$refs.particlesCanvas;
-          const ctx = canvas.getContext('2d');
+      //   // Mettre à jour les statistiques en temps réel
+      //   setInterval(() => {
+      //     this.liveUsers = Math.floor(Math.random() * 100) + 1200;
+      //     this.recentOrders = Math.floor(Math.random() * 50) + 550;
+      //   }, 5000);
+      // },
+      // beforeDestroy() {
+      //   this.stopAutoPlay();
+    //   // },
+    //   methods: {
+    //     startAutoPlay() {
+    //       this.autoPlayInterval = setInterval(() => {
+    //         this.nextSlide();
+    //       }, 5000);
+    //     },
+    //     stopAutoPlay() {
+    //       if (this.autoPlayInterval) {
+    //         clearInterval(this.autoPlayInterval);
+    //         this.autoPlayInterval = null;
+    //       }
+    //     },
+    //     nextSlide() {
+    //       this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+    //     },
+    //     prevSlide() {
+    //       this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
+    //     },
+    //     goToSlide(index) {
+    //       this.currentSlide = index;
+    //     },
+    //     initParticles() {
+    //       const canvas = this.$refs.particlesCanvas;
+    //       const ctx = canvas.getContext('2d');
           
-          // Redimensionner le canvas
-          const resizeCanvas = () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-          };
+    //       // Redimensionner le canvas
+    //       const resizeCanvas = () => {
+    //         canvas.width = window.innerWidth;
+    //         canvas.height = window.innerHeight;
+    //       };
           
-          resizeCanvas();
-          window.addEventListener('resize', resizeCanvas);
+    //       resizeCanvas();
+    //       window.addEventListener('resize', resizeCanvas);
           
-          const particles = [];
-          const particleCount = 100;
+    //       const particles = [];
+    //       const particleCount = 100;
           
-          // Créer les particules
-          for (let i = 0; i < particleCount; i++) {
-            particles.push({
-              x: Math.random() * canvas.width,
-              y: Math.random() * canvas.height,
-              radius: Math.random() * 3 + 1,
-              speedX: (Math.random() - 0.5) * 1,
-              speedY: (Math.random() - 0.5) * 1,
-              color: `rgba(255, 255, 255, ${Math.random() * 0.5 + 0.1})`
-            });
-          }
+    //       // Créer les particules
+    //       for (let i = 0; i < particleCount; i++) {
+    //         particles.push({
+    //           x: Math.random() * canvas.width,
+    //           y: Math.random() * canvas.height,
+    //           radius: Math.random() * 3 + 1,
+    //           speedX: (Math.random() - 0.5) * 1,
+    //           speedY: (Math.random() - 0.5) * 1,
+    //           color: `rgba(255, 255, 255, ${Math.random() * 0.5 + 0.1})`
+    //         });
+    //       }
           
-          // Fonction d'animation
-          const animate = () => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+    //       // Fonction d'animation
+    //       const animate = () => {
+    //         ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            particles.forEach(particle => {
-              ctx.beginPath();
-              ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
-              ctx.fillStyle = particle.color;
-              ctx.fill();
+    //         particles.forEach(particle => {
+    //           ctx.beginPath();
+    //           ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+    //           ctx.fillStyle = particle.color;
+    //           ctx.fill();
               
-              // Déplacement
-              particle.x += particle.speedX;
-              particle.y += particle.speedY;
+    //           // Déplacement
+    //           particle.x += particle.speedX;
+    //           particle.y += particle.speedY;
               
-              // Rebond sur les bords
-              if (particle.x < 0 || particle.x > canvas.width) particle.speedX *= -1;
-              if (particle.y < 0 || particle.y > canvas.height) particle.speedY *= -1;
-            });
+    //           // Rebond sur les bords
+    //           if (particle.x < 0 || particle.x > canvas.width) particle.speedX *= -1;
+    //           if (particle.y < 0 || particle.y > canvas.height) particle.speedY *= -1;
+    //         });
             
-            requestAnimationFrame(animate);
-          };
+    //         requestAnimationFrame(animate);
+    //       };
           
-          animate();
-        },
-        selectSuggestion(suggestion) {
-          // Ici vous pourriez implémenter la logique de recherche
-          alert("Recherche sélectionnée: " + suggestion);
-        }
-      }
-    });
+    //       animate();
+    //     },
+    //     selectSuggestion(suggestion) {
+    //       // Ici vous pourriez implémenter la logique de recherche
+    //       alert("Recherche sélectionnée: " + suggestion);
+    //     }
+    //   }
+    // });
 
     // Création de l'instance Vue
-    new Vue({
-      el: '#app'
-    });
-  </script>
+  //   new Vue({
+  //     el: '#app'
+  //   });
+  // </script>
   
   <style>
-    /* Styles spécifiques au composant HeroSection */
+ 
     .hero {
       position: relative;
       height: 100vh;
@@ -485,7 +485,7 @@
     }
 
     /* Overlay sombre sur les images pour améliorer la lisibilité */
-    .carousel-item::after {
+    /* .carousel-item::after {
       content: '';
       position: absolute;
       top: 0;
@@ -494,10 +494,10 @@
       height: 100%;
       background: rgba(0, 0, 0, 0.4);
       z-index: 1;
-    }
+    } */
 
     /* Contenu textuel sur chaque slide */
-    .slide-content {
+    /* .slide-content {
       position: absolute;
       bottom: 20%;
       left: 50%;
@@ -508,9 +508,9 @@
       z-index: 5;
       opacity: 0;
       transition: opacity 0.5s ease;
-    }
+    } */
 
-    .carousel-item.active .slide-content {
+    /* .carousel-item.active .slide-content {
       opacity: 1;
       animation: fadeInUp 1s ease forwards;
     }
@@ -526,10 +526,10 @@
       font-size: 1.4rem;
       color: rgba(255, 255, 255, 0.9);
       text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-    }
+    } */
 
     /* Canvas pour les particules */
-    .particles-canvas {
+    /* .particles-canvas {
       position: absolute;
       top: 0;
       left: 0;
@@ -556,10 +556,10 @@
       margin: 0 auto;
       text-align: center;
       padding: 20px;
-    }
+    } */
 
     /* Animation du titre - CORRIGÉ */
-    .animated-headline {
+    /* .animated-headline {
       font-size: 3rem;
       margin-bottom: 20px;
       line-height: 1.4;
@@ -786,10 +786,10 @@
     .carousel-indicators span.active {
       background: white;
       transform: scale(1.3);
-    }
+    } */
 
     /* Statistiques en temps réel */
-    .live-stats {
+    /* .live-stats {
       position: absolute;
       bottom: 20px;
       right: 20px;
@@ -818,10 +818,10 @@
     .stat span {
       font-weight: 700;
       color: #ffde59;
-    }
+    } */
 
     /* Recherche intelligente */
-    .smart-search {
+    /* .smart-search {
       position: absolute;
       top: 20px;
       left: 50%;
@@ -1079,4 +1079,4 @@
     }
   </style>
 </body>
-</html>
+</html> */
