@@ -62,6 +62,12 @@ const routes = [
     component: HowItWorks,
     meta: { title: 'Comment ça marche' }
   },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: () => import("@/views/AdminDashboard.vue"),
+    meta: { title: "Tableau de bord Admin - NexaShop" }
+  }
   // Sellers Dashboard routes
   { path: '/seller-dashboard', name: 'Dashboard', component: Dashboard,meta: { layout: 'layoutseller' } },
   { path: '/orders', name: 'Orders', component: Orders, meta: { layout: 'layoutseller' } },
