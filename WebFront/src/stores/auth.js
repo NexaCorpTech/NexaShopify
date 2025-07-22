@@ -1,6 +1,8 @@
+
 import { defineStore } from 'pinia'
-import Cookies from 'js-cookie'
 import api from '@/axios'  // <-- Utilise l'instance avec interceptor
+import Cookies from 'js-cookie'
+
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({

@@ -116,6 +116,7 @@ import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useToast } from "vue-toastification"
 
+
 const credentials = ref({
   email: '',
   password: ''
@@ -156,7 +157,7 @@ async function login() {
     toast.success("Connexion réussie !")
     loginButtonText.value = 'Connexion réussie !'
     setTimeout(() => {
-      router.push('/dashboard') // à adapter selon ta route dashboard
+      router.push('/seller-dashboard') // à adapter selon ta route dashboard
     }, 1000)
   }else {
     toast.error(auth.errors && auth.errors[0] ? auth.errors[0] : "Informations incorrectes")

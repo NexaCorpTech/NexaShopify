@@ -1,7 +1,6 @@
 <script setup>
 import { RouterView } from "vue-router";
 // import AppLayout from './components/layout/AppLayout.vue';
-
 import AppLayout from './components/layout/AppLayout.vue'
 import EmptyLayout from './components/layout/EmptyLayout.vue'
 import { useRoute } from 'vue-router'
