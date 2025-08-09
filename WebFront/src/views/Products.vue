@@ -591,7 +591,30 @@ const onPageChange = (event) => {
 }
 
 const openProductDialog = () => {
-  selectedProduct.value = null
+  // selectedProduct.value = {
+  //     title: '',
+  //     description: '',
+  //     status: 'draft',
+  //     type: '',
+  //     onlineStore: false,
+  //     pointOfSale: false,
+  //     media: [],
+  //     price: 0,
+  //     compareAtPrice: null,
+  //     costPerItem: null,
+  //     taxable: false,
+  //     trackQuantity: false,
+  //     quantity: 0,
+  //     continueSelling: false,
+  //     sku: '',
+  //     variants: [],
+  //     vendor: '',
+  //     collections: [],
+  //     tags: [],
+  //     seoTitle: '',
+  //     seoDescription: ''
+  //   }
+  selectedProduct.value = {}
   formMode.value = 'add'
   showProductDialog.value = true
 }

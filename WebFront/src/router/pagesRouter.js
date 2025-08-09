@@ -69,7 +69,7 @@ const routes = [
     meta: { title: "Tableau de bord Admin - NexaShop" }
   },
   // Sellers Dashboard routes
-  { path: '/seller-dashboard', name: 'Dashboard', component: Dashboard,meta: { layout: 'layoutseller' } },
+  { path: '/seller-dashboard', name: 'Dashboard', component: Dashboard, meta: { layout: 'layoutseller' } },
   { path: '/orders', name: 'Orders', component: Orders, meta: { layout: 'layoutseller' } },
   { path: '/products', name: 'Products', component: Products, meta: { layout: 'layoutseller' } },
   { path: '/customers', name: 'Customers', component: Customers, meta: { layout: 'layoutseller' } },
@@ -100,6 +100,12 @@ router.beforeEach((to) => {
 router.beforeEach((to, from, next) => {
 
   console.log(`Navigating from ${from.path} to ${to.path} at ${new Date().toLocaleString('fr-FR', { timeZone: 'CET' })}`);
+  
+  // Ne pas afficher le spinner pour certaines routes
+  if (to.meta.layout === 'layoutseller') {
+    return next(); // continuer sans spinner
+  }
+
   const spinner = document.getElementById('nb-global-spinner');
   if (spinner) {
     spinner.style.display = 'flex';

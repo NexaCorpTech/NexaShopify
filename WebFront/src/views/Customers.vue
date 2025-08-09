@@ -61,13 +61,13 @@
               />
             </div>
             <div class="filter-group">
-              <label class="filter-label">{{ $t('group') }}</label>
+              <label class="filter-label">{{ $t('country') }}</label>
               <Dropdown 
-                v-model="filters.group" 
-                :options="groupOptions" 
+                v-model="filters.country" 
+                :options="countryOptions" 
                 optionLabel="label" 
                 optionValue="value" 
-                :placeholder="$t('allGroups')"
+                :placeholder="$t('allCountries')"
                 class="filter-dropdown"
                 showClear
               />
@@ -143,14 +143,6 @@
           >
             <template #body="{ data }">
               <div class="customer-cell">
-                <div class="customer-avatar">
-                  <Avatar 
-                    :label="data.name.charAt(0)" 
-                    shape="circle"
-                    size="large"
-                    class="customer-thumb"
-                  />
-                </div>
                 <div class="customer-info">
                   <span class="customer-name">{{ data.name }}</span>
                   <small class="customer-email">{{ data.email }}</small>
@@ -194,14 +186,14 @@
           
           <!-- Orders Column -->
           <Column 
-            field="totalOrders" 
+            field="orders" 
             :header="$t('orders')" 
             sortable
             class="orders-column"
           >
             <template #body="{ data }">
               <div class="orders-cell">
-                <span class="orders-count">{{ formatNumber(data.totalOrders) }}</span>
+                <span class="orders-count">{{ formatNumber(data.orders) }}</span>
                 <small class="orders-label">{{ $t('totalOrders') }}</small>
               </div>
             </template>
@@ -214,30 +206,30 @@
             </template>
           </Column>
           
-          <!-- Group Column -->
+          <!-- Country Column -->
           <Column 
-            field="group" 
-            :header="$t('group')" 
+            field="country" 
+            :header="$t('country')" 
             sortable
-            class="group-column"
+            class="country-column"
           >
             <template #body="{ data }">
               <Chip 
-                :label="data.group" 
-                class="group-chip"
+                :label="data.country" 
+                class="country-chip"
               />
             </template>
           </Column>
           
-          <!-- Last Order Column -->
+          <!-- Total Spent Column -->
           <Column 
-            field="lastOrderDate" 
-            :header="$t('lastOrder')" 
+            field="totalSpent" 
+            :header="$t('totalSpent')" 
             sortable
-            class="last-order-column"
+            class="total-spent-column"
           >
             <template #body="{ data }">
-              <span>{{ formatDate(data.lastOrderDate) }}</span>
+              <span class="total-spent">{{ formatCurrency(data.totalSpent) }}</span>
             </template>
           </Column>
           
@@ -347,7 +339,7 @@
     <Dialog 
       v-model:visible="showCustomerDialog" 
       :header="dialogTitle"
-      :style="{ width: '90vw', maxWidth: '800px' }" 
+      :style="{ width: '90vw', maxWidth: '1200px' }" 
       :maximizable="true" 
       :modal="true"
       class="customer-dialog"
@@ -376,7 +368,6 @@ import { useI18n } from 'vue-i18n'
 import { useToast } from 'primevue/usetoast'
 import { useConfirm } from 'primevue/useconfirm'
 import { useCustomerStore } from '@/stores/customerStore'
-import { useNotificationStore } from '@/stores/notificationStore'
 
 // Components
 import Card from 'primevue/card'
@@ -390,7 +381,6 @@ import InputText from 'primevue/inputtext'
 import InputNumber from 'primevue/inputnumber'
 import Tag from 'primevue/tag'
 import Chip from 'primevue/chip'
-import Avatar from 'primevue/avatar'
 import Toast from 'primevue/toast'
 import ConfirmDialog from 'primevue/confirmdialog'
 import CustomerForm from '@/components/CustomerForm.vue'
@@ -400,7 +390,6 @@ const { t } = useI18n()
 const toast = useToast()
 const confirm = useConfirm()
 const customerStore = useCustomerStore()
-const notificationStore = useNotificationStore()
 
 // Reactive data
 const loading = ref(false)
@@ -414,7 +403,7 @@ const formMode = ref('add')
 // Filters
 const filters = ref({
   status: null,
-  group: null,
+  country: null,
   orders: '',
   search: ''
 })
@@ -432,10 +421,11 @@ const statusOptions = [
   { label: t('pending'), value: 'Pending' }
 ]
 
-const groupOptions = [
-  { label: t('regular'), value: 'Regular' },
-  { label: t('vip'), value: 'VIP' },
-  { label: t('wholesale'), value: 'Wholesale' }
+const countryOptions = [
+  { label: t('tunisia'), value: 'Tunisia' },
+  { label: t('france'), value: 'France' },
+  { label: t('usa'), value: 'USA' },
+  { label: t('uk'), value: 'UK' }
 ]
 
 const moreActionsItems = [
@@ -467,13 +457,13 @@ const filteredCustomers = computed(() => {
     customers = customers.filter(c => c.status === filters.value.status)
   }
 
-  if (filters.value.group) {
-    customers = customers.filter(c => c.group === filters.value.group)
+  if (filters.value.country) {
+    customers = customers.filter(c => c.country === filters.value.country)
   }
 
   if (filters.value.orders) {
     customers = customers.filter(c => 
-      c.totalOrders.toString().includes(filters.value.orders)
+      c.orders.toString().includes(filters.value.orders)
     )
   }
 
@@ -482,7 +472,7 @@ const filteredCustomers = computed(() => {
     customers = customers.filter(c => 
       c.name.toLowerCase().includes(searchTerm) ||
       c.email.toLowerCase().includes(searchTerm) ||
-      c.group.toLowerCase().includes(searchTerm)
+      c.country.toLowerCase().includes(searchTerm)
     )
   }
 
@@ -499,7 +489,7 @@ const paginatedCustomers = computed(() => {
 
 const hasActiveFilters = computed(() => {
   return !!(filters.value.status || 
-           filters.value.group || 
+           filters.value.country || 
            filters.value.orders || 
            filters.value.search)
 })
@@ -509,15 +499,15 @@ const dialogTitle = computed(() => {
 })
 
 // Methods
-const formatNumber = (value) => {
-  return new Intl.NumberFormat('fr-TN').format(value || 0)
+const formatCurrency = (value) => {
+  return new Intl.NumberFormat('fr-TN', {
+    style: 'currency',
+    currency: 'TND'
+  }).format(value || 0)
 }
 
-const formatDate = (date) => {
-  if (!date) return 'N/A'
-  return new Intl.DateTimeFormat('fr-TN', {
-    dateStyle: 'medium'
-  }).format(new Date(date))
+const formatNumber = (value) => {
+  return new Intl.NumberFormat('fr-TN').format(value || 0)
 }
 
 const getStatusSeverity = (status) => {
@@ -541,7 +531,7 @@ const getStatusIcon = (status) => {
 const clearFilters = () => {
   filters.value = {
     status: null,
-    group: null,
+    country: null,
     orders: '',
     search: ''
   }
@@ -553,7 +543,18 @@ const onPageChange = (event) => {
 }
 
 const openCustomerDialog = () => {
-  selectedCustomer.value = null
+  // selectedCustomer.value = {
+  //   name: '',
+  //   email: '',
+  //   status: 'Active',
+  //   phone: '',
+  //   country: '',
+  //   address: '',
+  //   orders: 0,
+  //   totalSpent: 0,
+  //   tags: []
+  // }
+  selectedCustomer.value = {}
   formMode.value = 'add'
   showCustomerDialog.value = true
 }
@@ -968,7 +969,7 @@ watch(filters, () => {
     border-bottom: 2px solid #e5e7eb;
   }
   
-  .p-datatable-thead > tr > th {
+  .p-datatable-thead >tr > th {
     background: #f9fafb;
     color: #374151;
     font-weight: 600;
@@ -1002,15 +1003,6 @@ watch(filters, () => {
   display: flex;
   align-items: center;
   gap: 1rem;
-}
-
-.customer-avatar {
-  flex-shrink: 0;
-}
-
-.customer-thumb {
-  background: #e5e7eb;
-  color: #374151;
 }
 
 .customer-info {
@@ -1049,9 +1041,14 @@ watch(filters, () => {
   font-size: 0.75rem;
 }
 
-.group-chip {
+.country-chip {
   background: #e0e7ff;
   color: #4f46e5;
+}
+
+.total-spent {
+  font-weight: 600;
+  color: #1f2937;
 }
 
 .action-buttons {

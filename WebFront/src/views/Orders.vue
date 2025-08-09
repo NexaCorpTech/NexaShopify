@@ -521,7 +521,8 @@ const onPageChange = (event) => {
 }
 
 const openOrderDialog = () => {
-  selectedOrder.value = null
+  // selectedOrder.value = null
+  selectedOrder.value = {}
   formMode.value = 'add'
   showOrderDialog.value = true
 }

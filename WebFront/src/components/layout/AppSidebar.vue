@@ -150,7 +150,7 @@
         </div>
       </div>
 
-      <div 
+      <!-- <div 
         v-if="!collapsed || mobile" 
         class="info-card apps-card"
       >
@@ -167,7 +167,7 @@
             class="add-apps-btn"
           />
         </div>
-      </div>
+      </div> -->
 
       <div v-if="collapsed && !mobile" class="collapsed-actions">
         <Button
@@ -177,13 +177,13 @@
           class="collapsed-action-btn"
           v-tooltip.right="'Canal de vente'"
         />
-        <Button
+        <!-- <Button
           icon="pi pi-th-large"
           text
           rounded
           class="collapsed-action-btn"
           v-tooltip.right="'Applications'"
-        />
+        /> -->
       </div>
     </div>
   </div>
@@ -212,7 +212,7 @@ export default {
     const mainMenuItems = [
       { 
         name: 'Dashboard', 
-        path: '/', 
+        path: '/seller-dashboard', 
         label: 'Tableau de bord', 
         icon: 'pi pi-home'
       },
@@ -227,43 +227,46 @@ export default {
         name: 'Products', 
         path: '/products', 
         label: 'Produits', 
-        icon: 'pi pi-box',
-        submenu: true
+        icon: 'pi pi-box'
+        // ,
+        // submenu: true
       },
       { 
         name: 'Customers', 
         path: '/customers', 
         label: 'Clients', 
         icon: 'pi pi-users'
-      },
-      { 
-        name: 'Analytics', 
-        path: '/analytics', 
-        label: 'Analytics', 
-        icon: 'pi pi-chart-line'
-      },
-      { 
-        name: 'Marketing', 
-        path: '/marketing', 
-        label: 'Marketing', 
-        icon: 'pi pi-megaphone',
-        submenu: true
       }
+      // ,
+      // { 
+      //   name: 'Analytics', 
+      //   path: '/analytics', 
+      //   label: 'Analytics', 
+      //   icon: 'pi pi-chart-line'
+      // }
+      // ,
+      // { 
+      //   name: 'Marketing', 
+      //   path: '/marketing', 
+      //   label: 'Marketing', 
+      //   icon: 'pi pi-megaphone',
+      //   submenu: true
+      // }
     ];
 
     const toolsMenuItems = [
-      { 
-        name: 'Discounts', 
-        path: '/discounts', 
-        label: 'Réductions', 
-        icon: 'pi pi-tag'
-      },
-      { 
-        name: 'Reports', 
-        path: '/reports', 
-        label: 'Rapports', 
-        icon: 'pi pi-file-pdf'
-      },
+      // { 
+      //   name: 'Discounts', 
+      //   path: '/discounts', 
+      //   label: 'Réductions', 
+      //   icon: 'pi pi-tag'
+      // },
+      // { 
+      //   name: 'Reports', 
+      //   path: '/reports', 
+      //   label: 'Rapports', 
+      //   icon: 'pi pi-file-pdf'
+      // },
       { 
         name: 'Settings', 
         path: '/settings', 
