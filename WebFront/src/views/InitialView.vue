@@ -7,7 +7,7 @@
     <ProductsSection />
     <CtaSection />
     
-    <BrandShowcase />
+    <!-- <BrandShowcase /> -->
     <TheFooter />
   </div>
 </template>

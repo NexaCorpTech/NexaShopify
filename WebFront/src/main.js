@@ -57,9 +57,7 @@ import { createApp } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import { createPinia } from 'pinia';
 import App from './App.vue';
-import router from "./router/pagesRouter";
-import Toast from "vue-toastification";
-// Import the CSS of vue-toastification
+import router from "./router/pagesRouter";// Import the CSS of vue-toastification
 import "vue-toastification/dist/index.css";
 // PrimeVue imports
 import PrimeVue from 'primevue/config';
